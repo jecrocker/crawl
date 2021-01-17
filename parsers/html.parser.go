@@ -22,7 +22,7 @@ func (h *HTMLProvider) Parse(node *core.URLMap, baseURL *url.URL, t utils.Tracke
 	parsed, err := html.Parse(node.Body)
 	if err != nil {
 		// Again with preventing a deadlock
-		return nil, nil
+		return node, newURLs
 	}
 
 	anchorTags := h.findAnchorTags(parsed)

@@ -37,7 +37,7 @@ func main() {
 	log.Println("Starting Crawl")
 	log.Printf("Starting at %v", u)
 
-	urls := make(chan *url.URL, 1000)
+	urls := make(chan *url.URL, 10000)
 	bodies := make(chan *core.URLMap, 1000)
 	outputs := make(chan *core.URLMap, 1000)
 
@@ -46,7 +46,7 @@ func main() {
 	t.AddURL(u.String())
 	wg.Add(1)
 	urls <- u
-
+	
 	go getPage(urls, bodies, wg)
 	go parsePage(u, wg, urls, bodies, outputs)
 	go generateOutput(outputs, wg)
@@ -89,17 +89,17 @@ func parsePage(baseURL *url.URL, wg *sync.WaitGroup, urls chan *url.URL, process
 		case strings.Contains(node.ContentType, "text/html"):
 			h := parsers.HTMLProvider{}
 			newNode, newURLs = h.Parse(node, baseURL, t)
-		}
-
-		// Add the node to be output
-		wg.Add(1)
-		outputs <- newNode
-
-		for _, url := range newURLs {
-			// Add the URL to the workgroup for getting
+			// Add the node to be output
 			wg.Add(1)
-			urls <- url
+			outputs <- newNode
+	
+			for _, url := range newURLs {
+				// Add the URL to the workgroup for getting
+				wg.Add(1)
+				urls <- url
+			}
 		}
+
 
 		// Mark the node as parsed
 		wg.Done()

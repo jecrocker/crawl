@@ -76,8 +76,8 @@ func TestTracker_AddURL(t *testing.T) {
 		{
 			name: "Add a URL",
 			fields: fields{
-				mu: &sync.Mutex{},
-				data: map[string]string{},
+				mu:     &sync.Mutex{},
+				data:   map[string]string{},
 				queued: 0,
 			},
 			args: args{

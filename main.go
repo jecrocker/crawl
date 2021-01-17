@@ -52,7 +52,7 @@ func main() {
 	wg.Add(1)
 	urls <- u
 	if getters > 0 {
-		for i:=0; i<getters; i++ {
+		for i := 0; i < getters; i++ {
 			go getPage(urls, bodies, wg)
 		}
 	} else {
@@ -60,7 +60,7 @@ func main() {
 	}
 
 	if parserCount > 0 {
-		for i:=0; i<parserCount; i++ {
+		for i := 0; i < parserCount; i++ {
 			go parsePage(u, wg, urls, bodies, outputs)
 		}
 	} else {

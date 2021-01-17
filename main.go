@@ -16,11 +16,16 @@ import (
 )
 
 var baseURL string
+var getters int
+var parserCount int
+
 var t utils.Tracker = utils.NewTracker()
 
 func init() {
 	log.Println("Initialising Web Crawler")
 	flag.StringVar(&baseURL, "baseURL", "", "The seed point for the URL")
+	flag.IntVar(&getters, "getters", 1, "Specify the number of threads for getting URLs")
+	flag.IntVar(&parserCount, "parsers", 1, "Specify the number of threads for parsing data")
 	flag.Parse()
 
 }
@@ -46,9 +51,22 @@ func main() {
 	t.AddURL(u.String())
 	wg.Add(1)
 	urls <- u
+	if getters > 0 {
+		for i:=0; i<getters; i++ {
+			go getPage(urls, bodies, wg)
+		}
+	} else {
+		go getPage(urls, bodies, wg)
+	}
 
-	go getPage(urls, bodies, wg)
-	go parsePage(u, wg, urls, bodies, outputs)
+	if parserCount > 0 {
+		for i:=0; i<parserCount; i++ {
+			go parsePage(u, wg, urls, bodies, outputs)
+		}
+	} else {
+		go parsePage(u, wg, urls, bodies, outputs)
+	}
+
 	go generateOutput(outputs, wg)
 
 	wg.Wait()

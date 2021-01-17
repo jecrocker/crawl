@@ -12,8 +12,8 @@ This is a basic web crawler, it is designed to crawl a given website and to crea
 
 #### Required
 
-- [ ] Print each of the URIs with a list of the links that are found
-- [ ] Respect the given domain, i.e. do not recurse sub-domains or external domains
+- [x] Print each of the URIs with a list of the links that are found
+- [x] Respect the given domain, i.e. do not recurse sub-domains or external domains
 
 #### Some helpful features
 
@@ -21,6 +21,7 @@ This is a basic web crawler, it is designed to crawl a given website and to crea
 - [ ] Add an option to ignore the cache forcing a get
 - [ ] Allow the software to expose a RESTful API
 - [ ] Add an option to scan sitemap.xml if available
+- [ ] Respect Robots.txt
 
 ### Design
 
@@ -28,18 +29,7 @@ To build this application we'll break the application down into several componen
 
 #### Interfaces
 
-| Name             | Purpose                                                              |
-| ---------------- | -------------------------------------------------------------------- |
-| PageProvider     | Provide a URL and a list of links from that page                     |
-| TypeProvider     | Provide the type of asset based on MIME type and Content-Type Header |
-| CachePersistence | An interface allowing for a the nodes to be cached                   |
-| Processor        | An interface for processing data                                     |
-
-#### Global Data Structures
-
-| Name            | Purpose                                                                   |
-| --------------- | ------------------------------------------------------------------------- |
-| ExploredNodes   | A slice of URLs that have already been explored                           |
-| DiscoveredNodes | A slice of unprocessed URLs that have been found                          |
-| DiscardedNodes  | A slice of nodes that have been found, but should not be explored further |
-| Sitemap         | A Graph showing how the explored nodes are connected                      |
+| Name             | Purpose                                            |
+| ---------------- | -------------------------------------------------- |
+| PageProvider     | Provide a URL and a list of links from that page   |
+| CachePersistence | An interface allowing for a the nodes to be cached |

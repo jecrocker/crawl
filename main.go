@@ -46,7 +46,7 @@ func main() {
 	t.AddURL(u.String())
 	wg.Add(1)
 	urls <- u
-	
+
 	go getPage(urls, bodies, wg)
 	go parsePage(u, wg, urls, bodies, outputs)
 	go generateOutput(outputs, wg)
@@ -92,14 +92,13 @@ func parsePage(baseURL *url.URL, wg *sync.WaitGroup, urls chan *url.URL, process
 			// Add the node to be output
 			wg.Add(1)
 			outputs <- newNode
-	
+
 			for _, url := range newURLs {
 				// Add the URL to the workgroup for getting
 				wg.Add(1)
 				urls <- url
 			}
 		}
-
 
 		// Mark the node as parsed
 		wg.Done()

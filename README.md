@@ -33,3 +33,17 @@ To build this application we'll break the application down into several componen
 | ---------------- | -------------------------------------------------- |
 | PageProvider     | Provide a URL and a list of links from that page   |
 | CachePersistence | An interface allowing for a the nodes to be cached |
+
+### Compilation
+
+This project can be compiled with
+
+```bash
+CGO_ENABLED=0 go build .
+```
+
+### Usage
+
+```bash
+./crawl -baseURL https://jamescrocker.invalid
+```

@@ -82,8 +82,12 @@ func generateOutput(outputs <-chan *core.URLMap, wg *sync.WaitGroup) {
 			break
 		}
 		fmt.Printf("- %s\n", node.URL.String())
+		outputSet := map[string]bool{}
 		for _, link := range node.Links {
-			fmt.Printf("|---- %s\n", link.String())
+			outputSet[link.String()] = true
+		}
+		for link := range outputSet {
+			fmt.Printf("|---- %s\n", link)
 		}
 		wg.Done()
 	}
